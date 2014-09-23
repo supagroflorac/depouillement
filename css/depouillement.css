@@ -1,0 +1,272 @@
+
+* { /*Pour la couleur de fond de page*/
+	background:#f3f3f3;
+	font-family: 'Lucida Grande', Verdana, Geneva, Lucida, Arial, Helvetica, sans-serif;
+}
+
+/**********************************************************************/
+/* ALERTES : */
+/**********************************************************************/
+body {
+	width: 99%;
+}
+
+div.warning {
+	background-color : #FFF5AE;
+	background-image : url(../img/close.png);
+	background-repeat : no-repeat;
+	background-position : right center;
+	position : absolute;
+	top : 0px;
+	left : 0px;	
+	width : 100%;
+	border-style : solid;
+	border-width : 1px;
+	padding : 0px;
+	margin : 0px;
+	z-index : 0;
+}
+
+div.warning p {
+	padding : 0px;
+	margin : 0px;
+}
+div.page {
+	z-index : 0;
+}
+
+/**********************************************************************/
+/* MENU */
+/**********************************************************************/
+
+/*<div class="menu"> <!--MENU DE LA PAGE? -->
+	<ul>  
+		<li><a href="../index.php">Retour</a></li>
+		<li class="subMenu">Utilisateurs</li><ul>
+			<li><a href="./index.php?action=AddUser" class="add"> utilisateur</a></li>
+			<li><a href="./index.php?action=DelUser" class="del">utilisateur</a></li>
+			<li><a href="./index.php?action=ModUser" class="mod" >utilisateur</a></li>
+		</ul>
+		<li class="subMenu">Groupes</li><ul>
+			<li><a href="./index.php?action=AddGroup" class="add">groupe</a></li>
+			<li><a href="./index.php?action=DelGroup" class="del">groupe</a></li>
+		</ul>
+		<li class="subMenu">Articles</li><ul>
+			<li><a href="./index.php?action=AddArticle" class="add">article</a></li>
+			<li><a href="./index.php?action=DelArticle" class="del">article</a></li>
+			<li><a href="./index.php?action=ModArticle" class="mod">article</a></li>
+		</ul>
+	</ul>
+</div>*/
+
+div.masque_menu {
+	width: 99%;
+	height: 40px;
+}
+
+div.menu {
+	padding: 0px;
+	margin : 0px;
+	padding-top: 15px;
+	padding-bottom: 25px;
+	text-decoration:none;
+	color:white;
+	font-size: small;
+	font-weight: bold;
+	position: absolute;
+	top : 0;
+	left : 0;
+	background: transparent;
+}
+
+div.menu ul {  /*le menu*/
+	width:100%;
+	padding: 0px;
+	margin: 0px;
+	border: 0px;
+	list-style-type:none;
+}
+
+div.menu ul li { /*chaque item du menu*/
+	float: left;
+ 	margin: 0;
+ 	padding: 0;
+ 	border: 0;
+ 	padding:0.2em 0.6em;
+ 	border-right:1px solid white;
+ 	width: 110px;
+ 	background-color: #A3C437;
+}
+
+div.menu ul li:hover{
+	background-color:#61666A;
+}
+
+div.menu ul.subMenu { /*les sous menu*/
+	display: none;
+	padding: 0px;
+	margin: 0px;
+	border: 0px;
+	list-style-type:none;
+	background: transparent;
+}
+
+div.menu ul.subMenu li{ /*les items des sous menu*/
+	float : none;
+	padding : 0px;
+	margin : 0px;
+	border : 0px;
+	list-style-type:none;
+	background-color:#A3C437;
+	background: transparent;
+	/*margin:0.2em 0.6em;*/
+}
+
+div.menu ul.subMenu li:hover{
+	background-color:#61666A;
+}
+
+div.menu li:hover > .subMenu { 
+	display: block;
+}
+
+div.menu li:hover > a { 
+	display: block;
+}
+
+div.menu ul.subMenu li a:hover {
+	color: #A3C437;
+}
+
+
+div.menu a {
+	text-decoration:none;
+	color:white;
+	font-size: small;
+	font-weight: bold;
+	background: transparent;
+}
+
+/*div.menu a:hover {
+	background-color:#61666A;
+}*/
+
+div.menu a { 
+	padding-left: 10px;
+}
+
+div.menu a.add { 
+	padding-left: 20px;
+	background-image: url(../img/add16x16.png);
+	background-position: left center;
+	background-repeat: no-repeat;
+}
+
+div.menu a.del { 
+	padding-left: 20px;
+	background-image: url(../img/del16x16.png);
+	background-position: left center;
+	background-repeat: no-repeat;
+}
+
+div.menu a.mod { 
+	padding-left: 20px;
+	background-image: url(../img/mod16x16.png);
+	background-position: left center;
+	background-repeat: no-repeat;
+}
+
+div.menu a.lock { 
+	padding-left: 20px;
+	background-image: url(../img/lock.png);
+	background-position: left center;
+	background-repeat: no-repeat;
+	color: red;
+}
+
+div.menu span {
+	padding-left: 10px;
+	background-color: transparent;
+}
+
+div.menu span.subMenu {
+	padding-left: 10px;
+	background-color: transparent;
+}
+
+div.menu span.print {
+	padding-left: 20px;
+	background-image: url(../img/print.png);
+	background-position: left center;
+	background-repeat: no-repeat;
+}
+
+
+/**********************************************************************/
+/* PAGE */
+/**********************************************************************/
+div.page * {
+	font-size: 12px;
+}
+
+div.page h1 {
+	font-size: 16px;
+}
+
+div.page input, textarea  {
+	background-color: white;
+}
+
+div.page p.avertissement {
+	padding-left: 40px;
+	min-height: 33px;
+	background-image: url(../img/warning.png);
+	background-position: 2px top;
+	background-repeat: no-repeat;
+	color: red;
+}
+
+div.page option {
+	min-width: 100px;
+	max-height: 150px;
+}
+
+div.page textarea{
+	width: 100%;
+}
+
+div.page select{
+	min-width : 150px;
+}
+
+/*les checkbox de la liste d'utilisateur lors de l'ajout/modification d'un article*/
+input.list_group {
+	vertical-align: middle;
+}
+
+select.choose_article {
+	width: 100%;
+}
+
+label.list_group {
+	/*vertical-align: middle;*/
+}
+
+span.list_group {
+	width: 220px;
+	float: left;
+}
+
+/**********************************************************************/
+/* les liens a javascript (tous/aucun) */
+/**********************************************************************/
+
+span.action {
+	color: blue;
+	text-decoration: underline;
+	
+}
+
+span.action:hover {
+	cursor: pointer;	
+}

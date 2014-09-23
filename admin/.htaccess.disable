@@ -1,0 +1,6 @@
+AuthUserFile /var/www/cdrflorac.fr/www/Depouillement/admin/.htaccess
+AuthGroupFile /dev/null
+AuthName Authentification
+AuthType Basic
+require valid-user
+

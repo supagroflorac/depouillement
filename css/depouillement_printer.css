@@ -1,0 +1,91 @@
+
+* { /*Pour la couleur de fond de page*/
+	/*background:#f3f3f3;*/
+	font-family: 'Lucida Grande', Verdana, Geneva, Lucida, Arial, Helvetica, sans-serif;
+}
+
+/**********************************************************************/
+/* ALERTES : */
+/**********************************************************************/
+body {
+	width: 99%;
+}
+
+div.warning {
+	display: none;
+}
+
+/**********************************************************************/
+/* MENU */
+/**********************************************************************/
+div.masque_menu {
+	display: none;
+	/*visibility:hidden;*/
+}
+
+div.menu {
+	display: none;
+	/*visibility:hidden;*/
+}
+
+/**********************************************************************/
+/* PAGE */
+/**********************************************************************/
+div.page * {
+	font-size: 10pt;
+
+}
+
+div.page h1 {
+	font-size: 16pt;
+}
+
+div.page input, textarea  {
+	background-color: white;
+}
+
+div.page p.avertissement {
+	padding-left: 40px;
+	min-height: 33px;
+	background-image: url(../img/warning.png);
+	background-position: 2px top;
+	background-repeat: no-repeat;
+	color: red;
+}
+
+div.page option {
+	min-width: 100px;
+	max-height: 150px;
+}
+
+div.page textarea{
+	width: 100%;
+}
+
+div.page select{
+	min-width : 150px;
+}
+
+/*les checkbox de la liste d'utilisateur lors de l'ajout/modification d'un article*/
+input.list_group {
+	vertical-align: middle;
+}
+
+label.list_group {
+	/*vertical-align: middle;*/
+}
+
+span.list_group {
+	width: 220px;
+	float: left;
+}
+
+/**********************************************************************/
+/* les liens a javascript (tous/aucun) */
+/**********************************************************************/
+
+span.action {
+	color: blue;
+	text-decoration: underline;
+	
+}
