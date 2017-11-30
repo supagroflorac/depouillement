@@ -18,7 +18,7 @@ div.warning {
 	background-position : right center;
 	position : absolute;
 	top : 0px;
-	left : 0px;	
+	left : 0px;
 	width : 100%;
 	border-style : solid;
 	border-width : 1px;
@@ -35,30 +35,6 @@ div.page {
 	z-index : 0;
 }
 
-/**********************************************************************/
-/* MENU */
-/**********************************************************************/
-
-/*<div class="menu"> <!--MENU DE LA PAGE? -->
-	<ul>  
-		<li><a href="../index.php">Retour</a></li>
-		<li class="subMenu">Utilisateurs</li><ul>
-			<li><a href="./index.php?action=AddUser" class="add"> utilisateur</a></li>
-			<li><a href="./index.php?action=DelUser" class="del">utilisateur</a></li>
-			<li><a href="./index.php?action=ModUser" class="mod" >utilisateur</a></li>
-		</ul>
-		<li class="subMenu">Groupes</li><ul>
-			<li><a href="./index.php?action=AddGroup" class="add">groupe</a></li>
-			<li><a href="./index.php?action=DelGroup" class="del">groupe</a></li>
-		</ul>
-		<li class="subMenu">Articles</li><ul>
-			<li><a href="./index.php?action=AddArticle" class="add">article</a></li>
-			<li><a href="./index.php?action=DelArticle" class="del">article</a></li>
-			<li><a href="./index.php?action=ModArticle" class="mod">article</a></li>
-		</ul>
-	</ul>
-</div>*/
-
 div.masque_menu {
 	width: 99%;
 	height: 40px;
@@ -73,9 +49,6 @@ div.menu {
 	color:white;
 	font-size: small;
 	font-weight: bold;
-	position: absolute;
-	top : 0;
-	left : 0;
 	background: transparent;
 }
 
@@ -126,11 +99,11 @@ div.menu ul.subMenu li:hover{
 	background-color:#61666A;
 }
 
-div.menu li:hover > .subMenu { 
+div.menu li:hover > .subMenu {
 	display: block;
 }
 
-div.menu li:hover > a { 
+div.menu li:hover > a {
 	display: block;
 }
 
@@ -147,36 +120,32 @@ div.menu a {
 	background: transparent;
 }
 
-/*div.menu a:hover {
-	background-color:#61666A;
-}*/
-
-div.menu a { 
+div.menu a {
 	padding-left: 10px;
 }
 
-div.menu a.add { 
+div.menu a.add {
 	padding-left: 20px;
 	background-image: url(../img/add16x16.png);
 	background-position: left center;
 	background-repeat: no-repeat;
 }
 
-div.menu a.del { 
+div.menu a.del {
 	padding-left: 20px;
 	background-image: url(../img/del16x16.png);
 	background-position: left center;
 	background-repeat: no-repeat;
 }
 
-div.menu a.mod { 
+div.menu a.mod {
 	padding-left: 20px;
 	background-image: url(../img/mod16x16.png);
 	background-position: left center;
 	background-repeat: no-repeat;
 }
 
-div.menu a.lock { 
+div.menu a.lock {
 	padding-left: 20px;
 	background-image: url(../img/lock.png);
 	background-position: left center;
@@ -264,9 +233,9 @@ span.list_group {
 span.action {
 	color: blue;
 	text-decoration: underline;
-	
+
 }
 
 span.action:hover {
-	cursor: pointer;	
+	cursor: pointer;
 }

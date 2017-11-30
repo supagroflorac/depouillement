@@ -1,0 +1,22 @@
+{% include 'header.twig' %}
+{% include 'menu.twig' %}
+
+<h1>Choix du rapport à afficher</h1>
+<form method="get" action="./index.php">
+  <select name="userid" size="1">
+  {% for user in users %}
+    <option value="{{ user.id }}">{{ user.name }}</option>
+  {% endfor %}
+  </select>
+
+  <select name="month">
+  {% for month in months %}
+    <option value="{{ loop.index }}"> {{ month }}</option>
+  {% endfor %}
+  </select>
+
+  <input type="test" name="year" value="{{ curYear }}" size="4" maxlength="4">
+  <input type="submit" value="Voir" />
+</form>
+
+{% include 'footer.twig' %}
