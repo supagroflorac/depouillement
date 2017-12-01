@@ -1,0 +1,35 @@
+{% include 'include/header.twig' %}
+
+<div class="page">
+  <a href="?view=AddArticle">Ajouter un article</a>
+
+  <table>
+    <tr>
+      <td>
+        <form method="get" action="./index.php?action=DelArticle">
+          <select name="month">
+          {% for key, monthName in months %}
+            <option value="{{ key }}" {% if key == month %}selected {% endif %}>{{ monthName }}</option>
+          {% endfor %}
+          </select>
+          <input type="test" name="year" value="{{ year }}" size="4" maxlength="4">
+          <input type="submit" value="Filtrer" />
+        </form>
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th>Titre</th>
+      <th colspan="2">Actions</th>
+    </tr>
+    {% for article in articles %}
+      <tr>
+        <td>{{ article.title }}</td>
+        <td><a href="index.php?view=ModArticle&articleid={{ article.id }}">edit</a></td>
+        <td><a href="index.php?action=DelArticle&view=ListArticles&articleid={{ article.id }}">delete</a></td>
+      </tr>
+    {% endfor %}
+  </table>
+</div>

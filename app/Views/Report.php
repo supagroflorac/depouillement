@@ -18,8 +18,8 @@ class Report extends InterfaceView
     protected function compileInfos()
     {
         $data = array(
-            'username' => $this->database->getUserNameByID($this->userid),
-            'articles' => $this->database->getArticleByUserAndMonth(
+            'username' => $this->database->getUserByID($this->userid)['name'],
+            'articles' => $this->database->getArticlesByUserAndMonth(
                 $this->userid,
                 $this->month,
                 $this->year

@@ -1,0 +1,13 @@
+{% include 'include/header.twig' %}
+
+<h1>Ajouter un utilisateur</h1>
+<form method="post" action="./index.php?view=ListUsers&action=AddUser">
+    Utilisateur : <input type="text" name="user_name" />
+    <select name="id_group" size="1" value="0">
+        <option value="0" selected="selected">--sans groupe--</option>
+        {% for group in groups %}
+          <option value="{{ group.id }}">{{ group.name }}</option>;
+        {% endfor %}
+    </select>
+    <input type="submit" value="Ajouter" />
+</form>

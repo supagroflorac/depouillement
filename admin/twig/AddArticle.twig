@@ -1,0 +1,71 @@
+{% include 'include/header.twig' %}
+
+<div class="page">
+  <h1>AJOUTER UN ARTICLE</h1>
+  <form method="post" action="index.php?view=ListArticles&action=AddArticle">
+    <fieldset>
+      <legend>Article</legend>
+      <label for="article_title">Titre :
+      </label>
+      <input id="article_title" type="text" name="article_title" maxlength="128" size="64"/>
+      <br/>
+      <fieldset>
+        <legend>Auteur :
+        </legend>
+        <label for="article_author_name">Nom :
+        </label>
+        <input id="article_author_name" type="text" name="article_author_name" maxlength="64" size="32"/>
+        <label for="article_author_firstname">Prénom :
+        </label>
+        <input id="article_author_firstname" type="text" name="article_author_firstname" maxlength="64" size="32"/><br/>
+      </fieldset>
+    </fieldset>
+    <fieldset>
+      <legend>Magazine</legend>
+      Titre du magazine :
+      <input type="text" name="magazine_title" maxlength="128" size="64"/>
+      <br/>
+      Num. du magazine :
+      <input type="text" name="magazine_num" maxlength="16" size="16"/>
+      Page :
+      <input type="text" name="magazine_page_start" maxlength="5" size="4"/>-
+      <input type="text" name="magazine_page_end" maxlength="5" size="4"/>
+      <br/>
+      Date du magazine :
+      <input type="text" name="mag_date_day" maxlength="10" size="5"/>/
+      <input type="text" name="mag_date_month" maxlength="10" size="5"/>/
+      <input type="text" name="mag_date_year" maxlength="4" size="4"/><br/>
+    </fieldset>
+    <fieldset>
+      <legend>Commentaire</legend>
+      <textarea name="commentary" cols="250" rows="4"></textarea><br/>
+    </fieldset>
+
+    {% for group in groups %}
+      <fieldset id="{{ group.id }}">
+        <legend>{{ group.name }}
+          (
+          <span class="action" onclick="checkAll('{{ group.id }}')">tous</span>/
+          <span class="action" onclick="checkNone('{{ group.id }}')">aucun</span>
+          )</legend>
+        {% for user in group.members %}
+          <input class="list_group" type="checkbox" name="{{ user.id }}" id="{{ user.id }}"/>
+          <label for="{{ user.id }}">{{ user.name }}</label>
+        {% endfor %}
+      </fieldset>
+    {% endfor %}
+
+    <fieldset id="{{ group.id }}">
+      <legend>Sans groupe (
+        <span class="action" onclick="checkAll('{{ group.id }}')">tous</span>/
+        <span class="action" onclick="checkNone('{{ group.id }}')">aucun</span>
+        )</legend>
+      {% for user in noGroupUsers %}
+        <input class="list_group" type="checkbox" name="{{ user.id }}" id="{{ user.id }}"/>
+        <label for="{{ user.id }}">{{ user.name }}</label>
+      {% endfor %}
+    </fieldset>
+
+    <input type="submit" value="Créer"/>
+  </form>
+</div>

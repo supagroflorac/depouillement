@@ -9,10 +9,14 @@
             "email": "florestan.bredow@supagro.fr"
         }
     ],
-    "require": {},
+    "require": {
+        "twig/twig": "^2.4"
+    },
     "autoload": {
         "psr-4": {
-          "Depouillement\\": "app"
+          "Depouillement\\": "app",
+          "Depouillement\\Views\\": "app/Views",
+          "Depouillement\\Actions\\": "app/Actions"
         }
     }
 }

@@ -1,0 +1,18 @@
+{% include 'include/header.twig' %}
+
+<div class="page">
+  <a href="?view=AddGroup">Ajouter un groupe</a>
+  <table>
+    <tr>
+      <th>Nom</th>
+      <th colspan="2">Actions</th>
+    </tr>
+    {% for group in groups %}
+      <tr>
+        <td>{{ group.name }}</td>
+        <td><a href="index.php?view=ModGroup&groupid={{ group.id }}">edit</a></td>
+        <td><a href="index.php?view=ListGroups&action=DelGroup&groupid={{ group.id }}">delete</a></td>
+      </tr>
+    {% endfor %}
+  </table>
+</div>

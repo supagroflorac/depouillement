@@ -1,0 +1,9 @@
+{% include 'include/header.twig' %}
+
+<h1>Modifier un groupe</h1>
+
+<form method="post" action="./index.php?view=ListGroups&action=ModGroup">
+    Nom du groupe : <input type="text" name="groupName" value="{{ group.name }}"/>
+    <input type="hidden" name="groupid" value="{{ group.id }}"/>
+    <input type="submit" value="Modifier" />
+</form>
