@@ -2,6 +2,7 @@
 namespace Depouillement;
 
 use \PDO;
+use \DateTime;
 
 class Database
 {
@@ -36,11 +37,12 @@ class Database
     public function getArticlesByUserAndMonth(string $userid, int $month, int $year)
     {
         $query = "SELECT * FROM `articles` , `interrested`
-                        WHERE `articles`.`id` = `interrested`.`id_article`
+                    WHERE `articles`.`id` = `interrested`.`id_article`
                         AND  `interrested`.`id_user` = :userid
                         AND `articles`.`add_date` BETWEEN :month
-                            AND DATE_ADD(DATE_ADD(:month, INTERVAL +1 MONTH),
-                                INTERVAL -1 DAY);";
+                            AND DATE_ADD(
+                                DATE_ADD(:month, INTERVAL +1 MONTH), INTERVAL -1 DAY
+                            );";
         $sth = $this->query(
             $query,
             array(
@@ -48,16 +50,23 @@ class Database
                 ':month' => "$year-$month-01",
             )
         );
-        return $sth->fetchAll(PDO::FETCH_ASSOC);
+        return $this->articlesArrayToArticlesClass(
+            $sth->fetchAll(PDO::FETCH_ASSOC)
+        );
     }
 
     public function getArticlesByMonth(int $month, int $year)
     {
         $query = "SELECT * FROM `articles`
                         WHERE `articles`.`add_date` BETWEEN :month
-                            AND DATE_ADD(DATE_ADD(:month, INTERVAL +1 MONTH), INTERVAL -1 DAY);";
+                            AND DATE_ADD(
+                                    DATE_ADD(:month, INTERVAL +1 MONTH),
+                                    INTERVAL -1 DAY
+                                );";
         $sth = $this->query($query, array(':month' => "$year-$month-01"));
-        return $sth->fetchAll(PDO::FETCH_ASSOC);
+        return $this->articlesArrayToArticlesClass(
+            $sth->fetchAll(PDO::FETCH_ASSOC)
+        );
     }
 
     public function getAllGroups()
@@ -147,19 +156,8 @@ class Database
         return $listUsersId;
     }
 
-    public function addArticle(
-        string $title,
-        string $authorName,
-        string $authorFirstname,
-        string $magazine,
-        string $numMagazine,
-        string $dateMagazine,
-        string $pageMagazineStart,
-        string $pageMagineEnd,
-        string $commentary,
-        array $interrestedUsersId
-    ) {
-        $curDate = date("Y-m-d");
+    public function addArticle(Article $article, array $interrestedUsersId)
+    {
         $query = "INSERT INTO `articles` (
                 `title`,
                 `author_name`,
@@ -186,16 +184,16 @@ class Database
         $this->query(
             $query,
             array(
-                ':title' => $title,
-                ':authorName' => $authorName,
-                ':authorFirstname' => $authorFirstname,
-                ':magazine' => $magazine,
-                ':numMagazine' => $numMagazine,
-                ':dateMagazine' => $dateMagazine,
-                ':pageMagazineStart' => $pageMagazineStart,
-                ':pageMagazineEnd' => $pageMagineEnd,
-                ':commentary' => $commentary,
-                ':curDate' => $curDate,
+                ':title' => $article->title,
+                ':authorName' => $article->author->name,
+                ':authorFirstname' => $article->author->firstname,
+                ':magazine' => $article->magazine->title,
+                ':numMagazine' => $article->magazine->issue,
+                ':dateMagazine' => $article->magazine->releaseDate->format('Y-m-d'),
+                ':pageMagazineStart' => $article->pageStart,
+                ':pageMagazineEnd' => $article->pageEnd,
+                ':commentary' => $article->comment,
+                ':curDate' => $article->addingDate->format('Y-m-d'),
             )
         );
 
@@ -237,5 +235,44 @@ class Database
             throw new DatabaseException($query, $sth->errorInfo());
         }
         return $sth;
+    }
+
+    private function articleArrayToArticleClass(array $data)
+    {
+
+        // Dans la BD les anciennes entrées peuvent avoir null a la place de
+        // page_start ou page_end
+        $pageStart = $data['page_magazine_start'];
+        $pageEnd = $data['page_magazine_end'];
+        if (empty($pageStart)) {
+            $pageStart = 0;
+        }
+        if (empty($pageEnd)) {
+            $pageEnd = $pageStart;
+        }
+
+        return new Article(
+            $data['title'],
+            new Author($data['author_name'], $data['author_firstname']),
+            new Magazine(
+                $data['magazine'],
+                $data['num_magazine'],
+                new DateTime($data['date_magazine'])
+            ),
+            $pageStart,
+            $pageEnd,
+            $data['commentary'],
+            new DateTime($data['add_date'])
+        );
+    }
+
+    private function articlesArrayToArticlesClass(array $data)
+    {
+        $articles = array();
+        foreach ($data as $line) {
+            $article = $this->articleArrayToArticleClass($line);
+            $articles[$line['id']] = $article;
+        }
+        return $articles;
     }
 }

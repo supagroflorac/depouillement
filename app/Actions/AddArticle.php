@@ -1,6 +1,11 @@
 <?php
 namespace Depouillement\Actions;
 
+use \Depouillement\Article;
+use \Depouillement\Author;
+use \Depouillement\Magazine;
+use \DateTime;
+
 class AddArticle extends InterfaceAction
 {
     protected $neededParameters = array(
@@ -23,16 +28,34 @@ class AddArticle extends InterfaceAction
             . "-" . $this->post['mag_date_month']
             . "-" . $this->post['mag_date_day'];
 
+        // Si les champs ne sont pas renseigné page_start et page_end peuvent être
+        // nulles
+        $pageStart = $params['magazine_page_start'];
+        $pageEnd = $params['magazine_page_end'];
+        if (empty($pageStart)) {
+            $pageStart = 0;
+        }
+        if (empty($pageEnd)) {
+            $pageEnd = $pageStart;
+        }
+
         $this->database->addArticle(
-            $params['article_title'],
-            $params['article_author_name'],
-            $params['article_author_firstname'],
-            $params['magazine_title'],
-            $params['magazine_num'],
-            $magazineDate,
-            $params['magazine_page_start'],
-            $params['magazine_page_end'],
-            $params['commentary'],
+            new Article(
+                $params['article_title'],
+                new Author(
+                    $params['article_author_name'],
+                    $params['article_author_firstname']
+                ),
+                new Magazine(
+                    $params['magazine_title'],
+                    $params['magazine_num'],
+                    new DateTime($magazineDate)
+                ),
+                $params['magazine_page_start'],
+                $pageEnd,
+                $params['commentary'],
+                new DateTime('now')
+            ),
             $this->getInterrestedUserId() // listes des personnes intérressée.
         );
     }

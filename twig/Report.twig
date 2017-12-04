@@ -4,11 +4,13 @@
 
 {% for article in articles %}
   <h3 class="report">{{ article.title }}</h3>
-  <p class=\"report\">Dans "{{ article.magazine }}" n°{{ article.num_magazine }} ({{ article.date_magazine }}) à la page {{ article.page_magazine_start }}. {{ article.commentary }}<br />
+  <p class=\"report\">Dans "{{ article.magazine.title }}" n°{{ article.magazine.issue }} ({{ article.magazine.releaseDate|date("d/m/Y") }}) à la page {{ article.pageStart }}. {{ article.comment }}<br />
   <b>Biblio : </b>
-  {% if article.author_name != 0 %}{{ article.author_name }}, {{ article.firstname }}. {% endif %}
-  {{ article.title }}. <span style=\"font-style: italic;\">{{ article.magazine }}</span>,
-  {{ article.date_magazine }}, n°{{ article.num_magazine}},
-  p. {{ article.page_magazine_start }}{% if article.page_magazine_end != 0 %}-{{ article.page_magazine_end }}{% endif %}
+  {% if article.author.name is not empty %}
+    {{ article.author.name }}, {{ article.author.firstname }}.
+  {% endif %}
+  {{ article.title }}. <span style=\"font-style: italic;\">{{ article.magazine.title }}</span>,
+  {{ article.magazine.releaseDate|date("d/m/Y") }}, n°{{ article.magazine.issue }}{% if article.pageStart != 0 %}, p. {{ article.pageStart }}{% if article.pageEnd != article.pageStart %}-{{ article.pageEnd }}{% endif %}
+  {% endif %}
 </p>
 {% endfor %}
