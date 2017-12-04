@@ -8,8 +8,7 @@ $loader = require __DIR__ . '/../vendor/autoload.php';
 
 include("../cfg/cfg.php");
 try {
-    $database = new Database();
-    $database->connect($db_server, $db_base, $db_user, $db_password);
+    $database = new Database($db_server, $db_base, $db_user, $db_password);
 } catch (\PDOException $e) {
     die("Impossible de se connecter à la base de donnée : " . $e->getMessage());
 }

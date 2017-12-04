@@ -7,7 +7,7 @@ class Database
 {
     private $link = null;
 
-    public function connect($server, $dbname, $user, $pwd)
+    public function __construct(string $server, string $dbname, string $user, string $pwd)
     {
         $this->link = new PDO("mysql:host=$server;dbname=$dbname", $user, $pwd);
     }
@@ -15,25 +15,22 @@ class Database
     public function getAllUsers()
     {
         $query = "SELECT * FROM `users` ORDER BY `name`";
-        $sth = $this->link->prepare($query);
-        $sth->execute();
-        return $sth->fetchAll(PDO::FETCH_ASSOC);
+        return $this->query($query, array())
+                    ->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getUserByID(int $userid)
     {
         $query = "SELECT * FROM `users` WHERE `id` = :userid";
-        $sth = $this->link->prepare($query);
-        $sth->execute(array(':userid' => $userid));
-        return $sth->fetch(PDO::FETCH_ASSOC);
+        return $this->query($query, array(':userid' => $userid))
+                    ->fetch(PDO::FETCH_ASSOC);
     }
 
     public function getGroupByID(int $groupid)
     {
         $query = "SELECT * FROM `groups` WHERE `id` = :groupid LIMIT 1";
-        $sth = $this->link->prepare($query);
-        $sth->execute(array(':groupid' => $groupid));
-        return $sth->fetch(PDO::FETCH_ASSOC);
+        return $this->query($query, array(':groupid' => $groupid))
+                    ->fetch(PDO::FETCH_ASSOC);
     }
 
     public function getArticlesByUserAndMonth(string $userid, int $month, int $year)
@@ -42,9 +39,10 @@ class Database
                         WHERE `articles`.`id` = `interrested`.`id_article`
                         AND  `interrested`.`id_user` = :userid
                         AND `articles`.`add_date` BETWEEN :month
-                            AND DATE_ADD(DATE_ADD(:month, INTERVAL +1 MONTH), INTERVAL -1 DAY);";
-        $sth = $this->link->prepare($query);
-        $sth->execute(
+                            AND DATE_ADD(DATE_ADD(:month, INTERVAL +1 MONTH),
+                                INTERVAL -1 DAY);";
+        $sth = $this->query(
+            $query,
             array(
                 ':userid' => $userid,
                 ':month' => "$year-$month-01",
@@ -58,24 +56,21 @@ class Database
         $query = "SELECT * FROM `articles`
                         WHERE `articles`.`add_date` BETWEEN :month
                             AND DATE_ADD(DATE_ADD(:month, INTERVAL +1 MONTH), INTERVAL -1 DAY);";
-        $sth = $this->link->prepare($query);
-        $sth->execute(array(':month' => "$year-$month-01"));
+        $sth = $this->query($query, array(':month' => "$year-$month-01"));
         return $sth->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getAllGroups()
     {
         $query = "SELECT * FROM `groups` ORDER BY `name`";
-        $sth = $this->link->prepare($query);
-        $sth->execute();
+        $sth = $this->query($query);
         return $sth->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getAllUsersFromGroup(int $groupid)
     {
         $query = "SELECT * FROM `users` WHERE `id_group` = :groupid ORDER BY `name`;";
-        $sth = $this->link->prepare($query);
-        $sth->execute(array(':groupid' => $groupid));
+        $sth = $this->query($query, array(':groupid' => $groupid));
         return $sth->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -85,8 +80,7 @@ class Database
                     WHERE `users`.`id` = :userid LIMIT 1;
                   DELETE FROM `interrested`
                     WHERE `interrested`.`id_user` = :userid;";
-        $sth = $this->link->prepare($query);
-        $sth->execute(array(':userid' => $userid));
+        $this->query($query, array(':userid' => $userid));
     }
 
     public function deleteGroup(int $groupid)
@@ -96,8 +90,7 @@ class Database
                   UPDATE `depouillement`.`users`
                     SET `id_group` = '0'
                     WHERE `users`.`id_group` = :groupid;";
-        $sth = $this->link->prepare($query);
-        $sth->execute(array(':groupid' => $groupid));
+        $this->query($query, array(':groupid' => $groupid));
     }
 
     public function deleteArticle(int $articleid)
@@ -106,16 +99,15 @@ class Database
                     WHERE `articles`.`id` = :articleid LIMIT 1;
                   DELETE FROM `interrested`
                     WHERE `interrested`.`id_article` = :articleid;";
-        $sth = $this->link->prepare($query);
-        $sth->execute(array(':articleid' => $articleid));
+        $this->query($query, array(':articleid' => $articleid));
     }
 
     public function addUser(string $name, int $groupid)
     {
         $query = "INSERT INTO `users` (`name`, `id_group`)
                     VALUES (:name , :groupid);";
-        $sth = $this->link->prepare($query);
-        $sth->execute(
+        $this->query(
+            $query,
             array(
                 ':name' => $name,
                 ':groupid' => $groupid
@@ -127,16 +119,15 @@ class Database
     {
         $query = "INSERT INTO `groups` (`name`)
                     VALUES (:name)";
-        $sth = $this->link->prepare($query);
-        $sth->execute(array(':name' => $name));
+        $this->query($query, array(':name' => $name));
     }
 
     public function addArticleUserLink($userid, $articleid)
     {
         $query = "INSERT INTO `interrested` (`id_user` , `id_article` )
                     VALUES (:userid, :articleid);";
-        $sth = $this->link->prepare($query);
-        $sth->execute(
+        $this->query(
+            $query,
             array(
                 ':userid' => $userid,
                 ':articleid' => $articleid,
@@ -147,14 +138,12 @@ class Database
     public function getAllUsersId()
     {
         $query = "SELECT `id` FROM users";
-        $sth = $this->link->prepare($query);
-        $sth->execute();
-        $results = $sth->fetchAll(PDO::FETCH_ASSOC);
+        $results = $this->query($query)
+                        ->fetchAll(PDO::FETCH_ASSOC);
         $listUsersId = array();
         foreach ($results as $line) {
             $listUsersId[] = $line['id'];
         }
-
         return $listUsersId;
     }
 
@@ -194,8 +183,8 @@ class Database
                 :commentary,
                 :curDate
             );";
-        $sth = $this->link->prepare($query);
-        $sth->execute(
+        $this->query(
+            $query,
             array(
                 ':title' => $title,
                 ':authorName' => $authorName,
@@ -223,8 +212,7 @@ class Database
     public function updateGroup(int $groupid, string $groupName)
     {
         $query = "UPDATE `groups` SET name = :name WHERE id = :id";
-        $sth = $this->link->prepare($query);
-        $sth->execute(array(':name' => $groupName, ':id' => $groupid));
+        $this->query($query, array(':name' => $groupName, ':id' => $groupid));
     }
 
     public function updateUser(int $userid, string $username, int $groupid)
@@ -232,13 +220,22 @@ class Database
         $query = "UPDATE `users`
                     SET name = :name, id_group = :groupid
                     WHERE id = :userid";
-        $sth = $this->link->prepare($query);
-        $sth->execute(
+        $this->query(
+            $query,
             array(
                 ':name' => $username,
                 ':userid' => $userid,
                 ':groupid' => $groupid,
             )
         );
+    }
+
+    private function query(string $query, array $params = array())
+    {
+        $sth = $this->link->prepare($query);
+        if ($sth->execute($params) === false) {
+            throw new DatabaseException($query, $sth->errorInfo());
+        }
+        return $sth;
     }
 }

@@ -6,12 +6,12 @@ if (!is_dir('vendor')) {
 }
 $loader = require __DIR__ . '/vendor/autoload.php';
 
-$database = new Database();
+
 include("./cfg/cfg.php");
 try {
-    $database->connect($db_server, $db_base, $db_user, $db_password);
+    $database = new Database($db_server, $db_base, $db_user, $db_password);
 } catch (\PDOException $e) {
-    die("Impossible de se connecter à la base de donnée : ".$e->getMessage());
+    die("Impossible de se connecter à la base de donnée : " . $e->getMessage());
 }
 
 $view = new Views\Index($database);
