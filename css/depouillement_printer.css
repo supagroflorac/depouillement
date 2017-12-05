@@ -18,15 +18,10 @@ div.warning {
 /**********************************************************************/
 /* MENU */
 /**********************************************************************/
-div.masque_menu {
+nav {
 	display: none;
-	/*visibility:hidden;*/
 }
 
-div.menu {
-	display: none;
-	/*visibility:hidden;*/
-}
 
 /**********************************************************************/
 /* PAGE */
@@ -87,5 +82,5 @@ span.list_group {
 span.action {
 	color: blue;
 	text-decoration: underline;
-	
+
 }

@@ -1,5 +1,12 @@
 {% include 'include/header.twig' %}
 
+<nav>
+  <ul>
+    <li><a href="index.php">Accueil</a></li>
+    <li><a class="lock" href="admin/index.php">Administrer</a></li>
+  </ul>
+</nav>
+
 <h1>Choix du rapport à afficher</h1>
 <form method="get" action="./index.php">
   <select name="userid" size="1">

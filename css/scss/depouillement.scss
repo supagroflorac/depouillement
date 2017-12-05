@@ -1,0 +1,83 @@
+$saf_green: #449d44;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+}
+
+nav {
+  background: $saf_green;
+  line-height: 3em;
+  ul {
+    display: flex;
+    flex-flow: row;
+    padding: 0;
+    li {
+      list-style: none;
+      a {
+        text-decoration: none;
+        padding: 10px;
+        color: white;
+      }
+    }
+  }
+}
+
+form {
+  margin: 20px;
+  fieldset {
+    display: flex;
+    flex-flow: column;
+    margin: 10px;
+    label {
+      margin-top: 10px;
+      margin-bottom: 5px;
+    }
+  }
+
+  fieldset.group {
+    display: flex;
+    flex: 1 1 0;
+    align-items: left;
+    justify-content: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-flow: row wrap;
+    align-content: flex-start;
+    label {
+      width: 20%;
+      min-width: 150px;
+      max-width: 200px;
+    }
+  }
+}
+
+table {
+  width: 100%;
+  padding: 20px;
+
+  th:first-child {
+    text-align: left;
+  }
+
+  tr:hover {
+    background-color: lightgrey;
+  }
+
+  .action {
+    text-align: center;
+  }
+}
+
+div.report{
+  margin: 20px;
+}
+
+div.article {
+  border-bottom: 1px solid grey;
+}

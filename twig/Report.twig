@@ -1,16 +1,28 @@
 {% include 'include/header.twig' %}
+<link rel="stylesheet" type="text/css" href="css/depouillement_printer.css" media="print"/>
 
-<h1 class="Report">Sélection d'articles pour {{ username }}</h1>
+<nav>
+  <ul>
+    <li><a href="index.php">Accueil</a></li>
+    <li><a href="#" onClick="javascript:print();">Imprimer</a></li>
+  </ul>
+</nav>
+
+<div class="report">
+<h1>Sélection d'articles pour {{ username }} du {{ month }}/{{ year }}</h1>
 
 {% for article in articles %}
-  <h3 class="report">{{ article.title }}</h3>
+<div class="article">
+  <h2 class="report">{{ article.title }}</h2>
   <p class=\"report\">Dans "{{ article.magazine.title }}" n°{{ article.magazine.issue }} ({{ article.magazine.releaseDate|date("d/m/Y") }}) à la page {{ article.pageStart }}. {{ article.comment }}<br />
-  <b>Biblio : </b>
-  {% if article.author.name is not empty %}
-    {{ article.author.name }}, {{ article.author.firstname }}.
-  {% endif %}
-  {{ article.title }}. <span style=\"font-style: italic;\">{{ article.magazine.title }}</span>,
-  {{ article.magazine.releaseDate|date("d/m/Y") }}, n°{{ article.magazine.issue }}{% if article.pageStart != 0 %}, p. {{ article.pageStart }}{% if article.pageEnd != article.pageStart %}-{{ article.pageEnd }}{% endif %}
-  {% endif %}
-</p>
+    <b>Biblio : </b>
+    {% if article.author.name is not empty %}
+      {{ article.author.name }}, {{ article.author.firstname }}.
+    {% endif %}
+    {{ article.title }}. <span style=\"font-style: italic;\">{{ article.magazine.title }}</span>,
+    {{ article.magazine.releaseDate|date("d/m/Y") }}, n°{{ article.magazine.issue }}{% if article.pageStart != 0 %}, p. {{ article.pageStart }}{% if article.pageEnd != article.pageStart %}-{{ article.pageEnd }}{% endif %}
+    {% endif %}
+  </p>
+</div>
 {% endfor %}
+<div class="report">

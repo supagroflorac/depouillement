@@ -1,6 +1,4 @@
 {% include 'include/header.twig' %}
-
-<h1>Modifier un utilisateur</h1>
 <form method="post" action="./index.php?view=ListUsers&action=ModUser">
     Utilisateur : <input type="text" name="username" value="{{ user.name }}"/>
     <input type="hidden" name="userid" value="{{ user.id }}"/>

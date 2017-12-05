@@ -1,18 +1,18 @@
 {% include 'include/header.twig' %}
 
-<div class="page">
-  <a href="?view=AddUser">Ajouter un utilisateur</a>
-  <table>
+<a href="?view=AddUser" class="add">Ajouter un utilisateur</a>
+<table>
+  <tr>
+    <th>Nom</th>
+    <th colspan="2">Actions</th>
+  </tr>
+  {% for user in users %}
     <tr>
-      <th>Nom</th>
-      <th colspan="2">Actions</th>
+      <td>{{ user.name }}</td>
+      <td class="action">
+        <a href="index.php?view=ModUser&userid={{ user.id }}" class="edit"><img src="../img/edit.svg" alt="edit"></a>
+        <a href="index.php?view=ListUsers&action=DelUser&userid={{ user.id }}" class="delete"><img src="../img/delete.svg" alt="delete"></a>
+      </td>
     </tr>
-    {% for user in users %}
-      <tr>
-        <td>{{ user.name }}</td>
-        <td><a href="index.php?view=ModUser&userid={{ user.id }}">edit</a></td>
-        <td><a href="index.php?view=ListUsers&action=DelUser&userid={{ user.id }}">delete</a></td>
-      </tr>
-    {% endfor %}
-  </table>
-</div>
+  {% endfor %}
+</table>
