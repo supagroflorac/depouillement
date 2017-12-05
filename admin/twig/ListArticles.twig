@@ -24,11 +24,11 @@
       <th>Titre</th>
       <th colspan="2">Actions</th>
     </tr>
-    {% for article in articles %}
+    {% for id, article in articles %}
       <tr>
         <td>{{ article.title }}</td>
-        <td><a href="index.php?view=ModArticle&articleid={{ article.id }}">edit</a></td>
-        <td><a href="index.php?action=DelArticle&view=ListArticles&articleid={{ article.id }}">delete</a></td>
+        <td><a href="index.php?view=ModArticle&articleid={{ id }}">edit</a></td>
+        <td><a href="index.php?action=DelArticle&view=ListArticles&articleid={{ id }}">delete</a></td>
       </tr>
     {% endfor %}
   </table>

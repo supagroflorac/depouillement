@@ -1,0 +1,55 @@
+{% include 'include/header.twig' %}
+
+<form method="post" action="index.php?view=ListArticles&action=ModArticle&articleid={{ articleid }}">
+  <fieldset>
+    <legend>Article</legend>
+    <label for="article_title">Titre : </label>
+    <input type="text" name="article_title" maxlength="128" size="64" value="{{ article.title }}">
+  </fieldset>
+  <fieldset>
+    <legend>Auteur : </legend>
+    <label for="author_name">Nom : </label>
+    <input type="text" name="author_name" maxlength="64" size="32" value="{{ article.author.name }}">
+    <br>
+    <label for="author_firstname">Prénom : </label>
+    <input type="text" name="author_firstname" maxlength="64" size="32" value="{{ article.author.firstname }}">
+  </fieldset>
+
+  <fieldset>
+    <legend>Magazine</legend>
+    <label for="magazine_title">Titre du magazine :</label>
+    <input type="text" name="magazine_title" maxlength="128" size="64" value="{{ article.magazine.title }}"/>
+    <br>
+    <label for="magazine_issue">Num. du magazine : </label>
+    <input type="text" name="magazine_issue" maxlength="16" size="16" value="{{ article.magazine.issue }}"/>
+    <br>
+    <label for="pageStart">Page : </label>
+    <input type="text" name="pageStart" maxlength="5" size="4" value="{{ article.pageStart }}"/>-
+    <input type="text" name="pageEnd" maxlength="5" size="4" value="{{ article.pageEnd }}"/>
+    <br>
+    <label for="pageStart">Date du magazine : </label>
+    <input type="text" name="magazineDay" maxlength="10" size="5" value="{{ article.magazine.releaseDate|date('d') }}"/>/
+    <input type="text" name="magazineMonth" maxlength="10" size="5" value="{{ article.magazine.releaseDate|date('m') }}"/>/
+    <input type="text" name="magazineYear" maxlength="4" size="4" value="{{ article.magazine.releaseDate|date('Y') }}"/>
+  </fieldset>
+  <fieldset>
+    <legend>Commentaire</legend>
+    <textarea name="comment" cols="250" rows="4">{{ article.comment }}</textarea><br/>
+  </fieldset>
+
+  {% for groupid, group in groups %}
+    <fieldset id="{{ groupid }}">
+      <legend>{{ group.name }}
+        (
+        <span class="action" onclick="checkAll('{{ groupid }}')">tous</span>/
+        <span class="action" onclick="checkNone('{{ groupid }}')">aucun</span>
+        )</legend>
+      {% for userid, user in group.members %}
+        <input class="list_group" type="checkbox" name="{{ userid }}" id="{{ userid }}" {% if user.interrested == true %}checked {% endif%}/>
+        <label for="{{ user.id }}">{{ user.name }}</label>
+      {% endfor %}
+    </fieldset>
+  {% endfor %}
+
+  <input type="submit" value="Modifier"/>
+</form>

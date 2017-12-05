@@ -51,6 +51,12 @@ switch ($_GET['view']) {
         }
         $view = new Views\ModUser($database, $_GET['userid']);
         break;
+    case "ModArticle":
+        if (!isset($_GET['articleid'])) {
+            die('Pas d\'article a editer.');
+        }
+        $view = new Views\ModArticle($database, $_GET['articleid']);
+        break;
     default:
         $month = date('m');
         $year = date('Y');

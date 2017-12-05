@@ -20,6 +20,13 @@ class Database
                     ->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getAllGroups()
+    {
+        $query = "SELECT * FROM `groups` ORDER BY `name`";
+        $sth = $this->query($query);
+        return $sth->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getUserByID(int $userid)
     {
         $query = "SELECT * FROM `users` WHERE `id` = :userid";
@@ -32,6 +39,37 @@ class Database
         $query = "SELECT * FROM `groups` WHERE `id` = :groupid LIMIT 1";
         return $this->query($query, array(':groupid' => $groupid))
                     ->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getArticleByID(int $articleid)
+    {
+        $query = "SELECT * FROM `articles` WHERE `id` = :articleid LIMIT 1";
+
+        return $this->articleArrayToArticleClass(
+            $this->query($query, array(':articleid' => $articleid))
+                    ->fetch(PDO::FETCH_ASSOC)
+        );
+    }
+
+    public function isInterrested($userid, $articleid)
+    {
+        $query = "SELECT * FROM `interrested`
+                    WHERE `id_user` = :userid
+                    AND `id_article` = :articleid
+                    LIMIT 1";
+
+        $results = $this->query(
+            $query,
+            array(
+                ':articleid' => $articleid,
+                ':userid' => $userid,
+            )
+        )->fetch(PDO::FETCH_ASSOC);
+
+        if (empty($results)) {
+            return false;
+        }
+        return true;
     }
 
     public function getArticlesByUserAndMonth(string $userid, int $month, int $year)
@@ -69,16 +107,11 @@ class Database
         );
     }
 
-    public function getAllGroups()
-    {
-        $query = "SELECT * FROM `groups` ORDER BY `name`";
-        $sth = $this->query($query);
-        return $sth->fetchAll(PDO::FETCH_ASSOC);
-    }
-
     public function getAllUsersFromGroup(int $groupid)
     {
-        $query = "SELECT * FROM `users` WHERE `id_group` = :groupid ORDER BY `name`;";
+        $query = "SELECT * FROM `users`
+                    WHERE `id_group` = :groupid
+                    ORDER BY `name`;";
         $sth = $this->query($query, array(':groupid' => $groupid));
         return $sth->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -226,6 +259,45 @@ class Database
                 ':groupid' => $groupid,
             )
         );
+    }
+
+    public function updateArticle(int $articleid, Article $article, array $interrestedUsersId)
+    {
+        $this->query(
+            "UPDATE `articles`
+                SET  `title` =  :title,
+                     `author_name` = :authorName,
+                     `author_firstname` = :authorFirstname,
+                     `magazine` = :magazineTitle,
+                     `num_magazine` = :magazineIssue,
+                     `date_magazine` = :magazineDateRelease,
+                     `page_magazine_start` = :pageStart,
+                     `page_magazine_end` = :pageEnd,
+                     `commentary` = :comment
+                WHERE `articles`.`id` = :articleid
+                LIMIT 1;
+            DELETE FROM `interrested`
+                WHERE `interrested`.`id_article` = :articleid;",
+            array(
+                ':title' => $article->title,
+                ':authorName' => $article->author->name,
+                ':authorFirstname' => $article->author->firstname,
+                ':magazineTitle' => $article->magazine->title,
+                ':magazineIssue' => $article->magazine->issue,
+                ':magazineDateRelease' => $article->magazine->releaseDate->format('Y-m-d'),
+                ':pageStart' => $article->pageStart,
+                ':pageEnd' => $article->pageEnd,
+                ':comment' => $article->comment,
+                ':articleid' => $articleid,
+            )
+        );
+
+        $validUsersId = $this->getAllUsersId();
+        foreach ($interrestedUsersId as $userid) {
+            if (in_array($userid, $validUsersId)) {
+                $this->addArticleUserLink($userid, $articleid);
+            }
+        }
     }
 
     private function query(string $query, array $params = array())
